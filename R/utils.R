@@ -108,7 +108,7 @@ dlStationData <- function(kns, beg, end)
         names(temp.list[[j]]) <- col.names
         temp.list[[j]]$LAT <- temp.list[[j]]$LAT/1000
         temp.list[[j]]$LONG <- temp.list[[j]]$LONG/1000
-        temp.list[[j]]$WIND.SPD <- temp.list[[j]]$WIND.SPD/10
+        #temp.list[[j]]$WIND.SPD <- temp.list[[j]]$WIND.SPD/10
         temp.list[[j]]$WIND.GUS <- temp.list[[j]]$WIND.GUS/10
         temp.list[[j]]$TEMP <- temp.list[[j]]$TEMP/10
         temp.list[[j]]$DEW.POINT <- temp.list[[j]]$DEW.POINT/10
