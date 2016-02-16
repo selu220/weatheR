@@ -100,6 +100,10 @@ dlStationData <- function(kns, beg, end)
         gz.url <- paste(base.url, yrs[i], "/", temp[j, 1], sep="")
         con <- gzcon(url(gz.url))
         raw <- textConnection(readLines(con))
+        
+        if(j==1){
+          rawOUT <<- raw
+        }
         # Read the .gz file directly into R without saving to disk
         temp.list[[j]] <- read.fwf(raw, col.width)
         close(con)
