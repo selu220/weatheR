@@ -50,15 +50,14 @@ multiplot <- function(..., plotlist=NULL, file, cols=1, layout=NULL)
 }
 ########## Multiplot ##########
 
-
 ########## Fixed Column Widths & Names ##########
 col.width <- c(4, 6, 5, 4, 2, 2, 2, 2, 1, 6, 7, 5, 5, 5, 4, 3, 1,
-               1, 5, 1, 5, 1, 1, 1, 6, 1, 1, 1, 5, 1, 5, 1, 5, 1) # Fixed width datasets
+               1, 4, 1, 5, 1, 1, 1, 6, 1, 1, 1, 5, 1, 5, 1, 5, 1) # Fixed width datasets
 
 col.names <- c("CHARS", "USAFID", "WBAN", "YR", "M", "D", "HR", "MIN",
                "DATE.FLAG", "LAT", "LONG", "TYPE.CODE", "ELEV", "CALL.LETTER",
                "QLTY", "WIND.DIR", "WIND.DIR.QLTY", "WIND.CODE",
-               "GUST", "WIND.SPD.QLTY", "CEILING.HEIGHT", "CEILING.HEIGHT.QLTY",
+               "WIND.SPD", "WIND.SPD.QLTY", "CEILING.HEIGHT", "CEILING.HEIGHT.QLTY",
                "CEILING.HEIGHT.DETERM", "CEILING.HEIGHT.CAVOK", "VIS.DISTANCE",
                "VIS.DISTANCE.QLTY", "VIS.CODE", "VIS.CODE.QLTY",
                "TEMP", "TEMP.QLTY", "DEW.POINT", "DEW.POINT.QLTY",
@@ -100,20 +99,22 @@ dlStationData <- function(kns, beg, end)
         gz.url <- paste(base.url, yrs[i], "/", temp[j, 1], sep="")
         con <- gzcon(url(gz.url))
         raw <- textConnection(readLines(con))
-        
         # Read the .gz file directly into R without saving to disk
         temp.list[[j]] <- read.fwf(raw, col.width)
-        if(j==20){
-        rawOUT <<- temp.list[[j]]
-        }
         close(con)
         # Some housekeeping:
+        if(j==5){
+        rawOUT <<- temp.list[[j]]
+        gzURLOUT <<- gz.url
+        col.widthOUT <<- col.width
+        templistOUT <<-temp.list[[j]]
+        }
         names(temp.list)[j] <- df.names[j]
         names(temp.list[[j]]) <- col.names
         temp.list[[j]]$LAT <- temp.list[[j]]$LAT/1000
         temp.list[[j]]$LONG <- temp.list[[j]]$LONG/1000
-        #temp.list[[j]]$WIND.SPD <- temp.list[[j]]$WIND.SPD/10
-        temp.list[[j]]$WIND.GUS <- temp.list[[j]]$WIND.GUS/10
+        temp.list[[j]]$WIND.SPD <- temp.list[[j]]$WIND.SPD/10
+        #temp.list[[j]]$WIND.GUS <- temp.list[[j]]$WIND.GUS/10
         temp.list[[j]]$TEMP <- temp.list[[j]]$TEMP/10
         temp.list[[j]]$DEW.POINT <- temp.list[[j]]$DEW.POINT/10
         temp.list[[j]]$ATM.PRES <- temp.list[[j]]$ATM.PRES/10
