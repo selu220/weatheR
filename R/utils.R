@@ -103,12 +103,14 @@ dlStationData <- function(kns, beg, end)
         temp.list[[j]] <- read.fwf(raw, col.width)
         close(con)
         # Some housekeeping:
-        if(j==5){
+      
+        ## looking into basic output to see if I can decipher where to pull GUST
         rawOUT <<- temp.list[[j]]
         gzURLOUT <<- gz.url
         col.widthOUT <<- col.width
         templistOUT <<-temp.list[[j]]
-        }
+        
+        
         names(temp.list)[j] <- df.names[j]
         names(temp.list[[j]]) <- col.names
         temp.list[[j]]$LAT <- temp.list[[j]]$LAT/1000
